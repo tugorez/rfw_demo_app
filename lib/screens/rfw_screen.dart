@@ -35,7 +35,7 @@ class _RfwScreenState extends State<RfwScreen> {
     _data = DynamicContent();
     _runtime = createRuntime()..updateMainLibrary(_mainLibrary);
     _apiClient = const ApiClient();
-    _changeRoute('/');
+    _changePath('/index.rfwtxt');
   }
 
   @override
@@ -49,11 +49,12 @@ class _RfwScreenState extends State<RfwScreen> {
   }
 
   Future<void> _onEvent(String name, DynamicMap arguments) async {
-    if (name != 'changeRoute') return;
-    print(arguments);
+    if (name != 'changePath') return;
+    final String path = arguments['path'] as String;
+    _changePath(path);
   }
 
-  Future<void> _changeRoute(String path) async {
+  Future<void> _changePath(String path) async {
     final library = await _apiClient.fetchRfw(path);
     _runtime.updateMainLibrary(library);
   }
