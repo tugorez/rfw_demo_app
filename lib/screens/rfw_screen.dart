@@ -14,11 +14,25 @@ class _RfwScreenState extends State<RfwScreen> {
     import core.widgets; 
     import material;
 
-    widget Main = Container();
+    widget Main = Scaffold(
+      appBar: AppBar(
+        title: Text(text: 'RFW Demo App'),
+      ),
+      body: Center(
+        child: Text(text: 'Loading...'),
+      ),
+    );
   ''';
 
-  final _data = DynamicContent();
-  final _runtime = createRuntime()..updateMainLibrary(_mainLibrary);
+  late final DynamicContent _data;
+  late final Runtime _runtime;
+
+  @override
+  void initState() {
+    super.initState();
+    _data = DynamicContent();
+    _runtime = createRuntime()..updateMainLibrary(_mainLibrary);
+  }
 
   @override
   Widget build(BuildContext context) {
