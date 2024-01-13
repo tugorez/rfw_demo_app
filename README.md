@@ -1,16 +1,11 @@
 # rfw_demo_app
 
-A new Flutter project.
+## WARNING
 
-## Getting Started
+This is a highly experimental app with a lot of moving pieces.
 
-This project is a starting point for a Flutter application.
+DO NOT DEPEND ON IT!
 
-A few resources to get you started if this is your first Flutter project:
+## What's this app purpose?
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Just to answer: What is the less amount of client code needed to deploy a fully server managed app?

@@ -139,6 +139,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
+  rfw:
+    dependency: "direct main"
+    description:
+      name: rfw
+      sha256: "1435e5e3ae9b33fcd087eeacca12d6704cfbe4cfb9ee31ab0b622a10f3c6d6f9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.16"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -210,3 +218,4 @@ packages:
     version: "13.0.0"
 sdks:
   dart: ">=3.3.0-238.0.dev <4.0.0"
+  flutter: ">=3.10.0"
