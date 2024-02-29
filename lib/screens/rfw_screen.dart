@@ -46,30 +46,35 @@ class _RfwScreenState extends State<RfwScreen> {
             _onEvent(context, name, arguments),
       );
 
-  Future<void> _onEvent(
+  void _onEvent(
     BuildContext context,
     String name,
     DynamicMap arguments,
-  ) async {
+  ) {
     if (name == 'changePath') {
       final String path = arguments['path'] as String;
       _changePath(path);
     } else if (name == 'navigator') {
       final List<Object?> actions = arguments['actions'] as List<Object?>;
       final NavigatorState navigator = Navigator.of(context);
-      for (final action in actions) {
-        action as DynamicMap;
-        if (action['action'] == 'pop') {
-          navigator.pop();
-        } else if (action['action'] == 'showBottomModal') {
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) =>
-                _buildRemoteWidget(context, action['widget'] as String),
-          );
+      for (final Object? action in actions) {
+        if (action is DynamicMap) {
+          _navigate(navigator, action);
         }
       }
     }
+  }
+
+  void _navigate(NavigatorState navigator, DynamicMap action) {
+      if (action['action'] == 'pop') {
+        navigator.pop();
+      } else if (action['action'] == 'showBottomModal') {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) =>
+              _buildRemoteWidget(context, action['widget'] as String),
+        );
+      }
   }
 
   Future<void> _changePath(String path) async {
