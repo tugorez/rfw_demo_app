@@ -12,13 +12,10 @@ class RfwScreen extends StatefulWidget {
 
 class _RfwScreenState extends State<RfwScreen> {
   static const _mainLibrary = '''
-    import core.widgets; 
+    import core.widgets;
     import material;
 
     widget Main = Scaffold(
-      appBar: AppBar(
-        title: Text(text: 'RFW Demo App'),
-      ),
       body: Center(
         child: Text(text: 'Loading...'),
       ),
