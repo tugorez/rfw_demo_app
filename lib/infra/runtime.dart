@@ -2,10 +2,8 @@ import 'package:rfw/rfw.dart';
 import 'package:rfw/formats.dart' show parseLibraryFile;
 import 'package:rfw_demo_app/infra/local_widgets.dart';
 
-const FullyQualifiedWidgetName mainWidget = FullyQualifiedWidgetName(
-  _mainLibraryName,
-  'Main',
-);
+FullyQualifiedWidgetName remoteWidget(String name) =>
+    FullyQualifiedWidgetName(_mainLibraryName, name);
 
 Runtime createRuntime() => Runtime()
   ..update(const LibraryName(<String>['core', 'widgets']), createCoreWidgets())

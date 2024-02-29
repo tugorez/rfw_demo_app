@@ -36,19 +36,40 @@ class _RfwScreenState extends State<RfwScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return RemoteWidget(
-      runtime: _runtime,
-      data: _data,
-      widget: mainWidget,
-      onEvent: _onEvent,
-    );
-  }
+  Widget build(BuildContext context) => _buildRemoteWidget(context, 'Main');
 
-  Future<void> _onEvent(String name, DynamicMap arguments) async {
-    if (name != 'changePath') return;
-    final String path = arguments['path'] as String;
-    _changePath(path);
+  Widget _buildRemoteWidget(BuildContext context, String name) => RemoteWidget(
+        runtime: _runtime,
+        data: _data,
+        widget: remoteWidget(name),
+        onEvent: (String name, DynamicMap arguments) =>
+            _onEvent(context, name, arguments),
+      );
+
+  Future<void> _onEvent(
+    BuildContext context,
+    String name,
+    DynamicMap arguments,
+  ) async {
+    if (name == 'changePath') {
+      final String path = arguments['path'] as String;
+      _changePath(path);
+    } else if (name == 'navigator') {
+      final List<Object?> actions = arguments['actions'] as List<Object?>;
+      final NavigatorState navigator = Navigator.of(context);
+      for (final action in actions) {
+        action as DynamicMap;
+        if (action['action'] == 'pop') {
+          navigator.pop();
+        } else if (action['action'] == 'showBottomModal') {
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) =>
+                _buildRemoteWidget(context, action['widget'] as String),
+          );
+        }
+      }
+    }
   }
 
   Future<void> _changePath(String path) async {
