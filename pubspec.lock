@@ -158,9 +158,10 @@ packages:
   rfw:
     dependency: "direct main"
     description:
-      path: "../packages/packages/rfw"
-      relative: true
-    source: path
+      name: rfw
+      sha256: "94e3276ab86c9e4b2fc780a58c72b3bcd433a7e32abe155bba61bda4cb073936"
+      url: "https://pub.dev"
+    source: hosted
     version: "1.0.25"
   sky_engine:
     dependency: transitive
