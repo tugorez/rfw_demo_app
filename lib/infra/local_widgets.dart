@@ -29,4 +29,16 @@ final Map<String, LocalWidgetBuilder> _localWidgetLibrary = <String, LocalWidget
       child: source.child(['child']),
     );
   },
+  'TweenAnimationBuilder': (BuildContext context, DataSource source) {
+    final double begin = source.v<double>(['begin'])!;
+    final double end = source.v<double>(['end'])!;
+    final int duration = source.v<int>(['duration'])!;
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: begin, end: end),
+      duration: Duration(milliseconds: duration),
+      builder: (BuildContext context, double value, Widget? child) {
+        return source.builder(['builder'], <String, Object?>{'value': value});
+      },
+    );
+  },
 };
