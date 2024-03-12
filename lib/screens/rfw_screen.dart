@@ -4,7 +4,10 @@ import 'package:rfw_demo_app/infra/runtime.dart';
 import 'package:rfw_demo_app/infra/client.dart';
 
 class RfwScreen extends StatefulWidget {
-  const RfwScreen({super.key});
+  const RfwScreen({super.key, required this.path, required this.widget});
+
+  final String path;
+  final String widget;
 
   @override
   State<RfwScreen> createState() => _RfwScreenState();
@@ -32,11 +35,12 @@ class _RfwScreenState extends State<RfwScreen> {
     _data = DynamicContent();
     _runtime = createRuntime()..updateMainLibrary(_mainLibrary);
     _apiClient = const ApiClient();
-    _changePath('/index.rfwtxt');
+    _changePath('/${widget.path}.rfwtxt');
   }
 
   @override
-  Widget build(BuildContext context) => _buildRemoteWidget(context, 'Main');
+  Widget build(BuildContext context) =>
+      _buildRemoteWidget(context, widget.widget);
 
   Widget _buildRemoteWidget(BuildContext context, String name) => RemoteWidget(
         runtime: _runtime,
@@ -51,10 +55,7 @@ class _RfwScreenState extends State<RfwScreen> {
     String name,
     DynamicMap arguments,
   ) {
-    if (name == 'changePath') {
-      final String path = arguments['path'] as String;
-      _changePath(path);
-    } else if (name == 'navigator') {
+    if (name == 'navigator') {
       final List<Object?> actions = arguments['actions'] as List<Object?>;
       final NavigatorState navigator = Navigator.of(context);
       for (final Object? action in actions) {
@@ -66,15 +67,25 @@ class _RfwScreenState extends State<RfwScreen> {
   }
 
   void _navigate(NavigatorState navigator, DynamicMap action) {
-      if (action['action'] == 'pop') {
-        navigator.pop();
-      } else if (action['action'] == 'showBottomModal') {
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) =>
-              _buildRemoteWidget(context, action['widget'] as String),
-        );
-      }
+    if (action['action'] == 'pop') {
+      navigator.pop();
+    } else if (action['action'] == 'showBottomModal') {
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) =>
+            _buildRemoteWidget(context, action['widget'] as String),
+      );
+    } else if (action['action'] == 'push') {
+      final String path = action['path'] as String;
+      final String widget = action['widget'] as String;
+
+      navigator.push(MaterialPageRoute(
+        builder: (_) => RfwScreen(
+          path: path,
+          widget: widget,
+        ),
+      ));
+    }
   }
 
   Future<void> _changePath(String path) async {
